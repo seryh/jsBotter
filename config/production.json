@@ -1,0 +1,15 @@
+{
+  "port":8001,
+  "wsPort":4040,
+  "mongo": {
+    "db": "jsBotter",
+    "host": "127.0.0.1",
+    "username": "",
+    "password": ""
+  },
+  "jsBotter": {
+    "join": [
+      { "server": "filezz.ru", "port":6667, "channels" : ["#jsBotter"] }
+    ]
+  }
+}
