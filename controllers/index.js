@@ -11,7 +11,7 @@ module.exports.index = function(data) {
     // (при первом запросе недоступен, так как сессия еще не назначилась к сокету)
 
     data.res.render('index', {
-        'title': 'karabamba',
+        'title': 'jsBotter ui',
         'wsHost': urlObj.hostname+':'+data.app.config.wsPort
     });
 

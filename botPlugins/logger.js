@@ -8,6 +8,7 @@ var irclog = require('../models/irclog');
 
 module.exports = {
     'message': function(nick, target, message) {
+        var client = this;
 
         irclog.add(target, nick, message);
 
@@ -27,8 +28,6 @@ module.exports = {
             });
             */
         }
-
-
 
     }
 };

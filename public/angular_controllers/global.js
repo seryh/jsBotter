@@ -1,4 +1,4 @@
-var app = angular.module('karabamba', ['ngCookies', 'ui.bootstrap']);
+var app = angular.module('karabamba', ['ngCookies', 'ui.bootstrap', 'ui.router']);
 
 var registerGlobalWSSocketMethods = function(socket, $scope) {
 
@@ -13,7 +13,7 @@ var registerGlobalWSSocketMethods = function(socket, $scope) {
 
 
     socket.on('jsonRPCResponse', function(resp){
-        console.log('jsonRPCResponse::', resp);
+        //console.log('jsonRPCResponse::', resp);
     });
 
     socket.on('connect_error', function(err){
