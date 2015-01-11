@@ -1,6 +1,8 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+var modelCompileCollections = [];
+
 var irclog = {
     add: function(target, nick, message) {
 
@@ -10,7 +12,14 @@ var irclog = {
             , date   :  { type: Date }
         },  { collection: target });
 
-        var irclogModel = mongoose.model(target, irclogSchema);
+        var irclogModel;
+
+        if (Boolean(modelCompileCollections[target])) {
+            irclogModel = modelCompileCollections[target];
+        } else {
+            irclogModel = mongoose.model(target, irclogSchema);
+            modelCompileCollections[target] = irclogModel;
+        }
 
         var log = new irclogModel();
 
@@ -22,6 +31,7 @@ var irclog = {
             if (err) console.log('botPlugins->logger->message save error::', err);
         });
 
+        return log;
     }
 };
 

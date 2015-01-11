@@ -72,45 +72,11 @@
 
 <div class="container theme-showcase" role="main" ng-controller="mainController" style="padding-top: 60px;">
     <div style="clear: both;"></div>
-    <div ui-view></div>
-    <a ui-sref="info">info</a>
-    <a ui-sref="channel({name: 'nnm'})">channel</a>
 
     <div style="clear: both;"></div>
-    <div class="page-header">
-        <h2>Example</h2>
-    </div>
 
-    <div class="col-xs-12 col-sm-6 col-md-8" style="margin-top: -20px;width: 820px;">
-        <script type="text/ng-template" id="/spending-template-datepicker.html">
-            <table class="table spending-table">
-                <thead>
-                <tr>
-                    <th ng-click="sortByNum('CarName')" style="width: 100px;">Авто</th>
-                    <th ng-click="sortByNum('Speed')" style="width: 300px;">Скорость</th>
-                    <th ng-click="sortByName('CityName')"  style="width: 300px;">Город</th>
-                    <th ng-click="sortByNum('Time')">Время</th>
-
-                </tr>
-                </thead>
-                <tbody>
-                <tr ng-repeat="item in spendingDatepickerList"
-                    ng-class="item.Speed > 160 ? 'danger' : 'warning'">
-                    <td><nobr>{{item.CarName}}</nobr></td>
-                    <td>{{item.Speed}} Км/ч</td>
-                    <td>{{item.CityName}}</td>
-                    <td>
-                        <nobr>{{item.TimeGMT | date:'dd.MM.yyyy HH:mm Z'}}</nobr>
-                    </td>
-                </tr>
-                </tbody>
-            </table>
-        </script>
-        <spending-datepicker-list>[{"Time":1412059293,"CarID":"ARN85272","CarName":"SKODA Octavia Р235НК123","CityName":"Санкт-Петербург","CityID":14,"TrackerID":3314,"Lat":60.076072,"Lon":30.38082,"Course":171.3,"Speed":130,"Date":"2014-09-29T17:00:00.000Z","TimeUTC":"2014-09-30T06:41:33.000Z","TimeGMT":"2014-09-30T13:41:33+07:00"}]</spending-datepicker-list>
-
-        <div>
-            <alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-        </div>
+    <div class="col-xs-12 col-sm-6 col-md-8">
+        <div ui-view></div>
     </div>
 
     <div style="clear: both;"></div>

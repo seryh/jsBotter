@@ -50,6 +50,15 @@ module.exports = function() {
         }
     });
 
+    jsonRpc.reg('setIRCChannel', function(params, respond, ext){
+        if (ext.socket) {
+            ext.socket.user.ircChannels = [params.channel];
+            respond({ result: {ircChannels : ext.socket.user.ircChannels} });
+        } else {
+            respond({ error: 'socket undefined' });
+        }
+    });
+
     jsonRpc.reg('login', function(params, respond, ext){
 
     });

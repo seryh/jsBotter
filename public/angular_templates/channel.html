@@ -1,1 +1,17 @@
-channel
+<h2>Чат</h2>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th style="width: 200px;"></th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr ng-repeat="item in chat">
+        <td><strong>{{item.date | date:'HH:mm.ss dd.MM.yyyy'}}</strong></td>
+        <td>{{item.nick}}: {{item.message}}</td>
+
+    </tr>
+    </tbody>
+</table>

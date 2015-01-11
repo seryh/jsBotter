@@ -21,9 +21,8 @@ var registerGlobalWSSocketMethods = function(socket, $scope) {
     });
 
     socket.on('runScopeMethod', function (wsData) {
-        var controller = angular.element('[ng-controller='+wsData.controllerName+']');
-        if (!controller.length) return false;
-        var scope = controller.scope();
+        var scope = publicControllers[wsData.controllerName];
+        if (Boolean(scope) === false) return false;
         scope[wsData.methodName](wsData.argument);
         scope.$apply();
     });
@@ -40,13 +39,15 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, content) {
 });
 
 
-var globalControllerScope = null;
+var publicControllers = {},
+    globalControllerScope = null;
 
 /* Посути фронтенд апи вызываемое с бекенда */
 app.controller('globalController', function($scope, $cookieStore, $modal, $cookies) {
 
     /* чтобы в консоле браузера можно было тестировать, например: globalControllerScope.modal("foo bar") */
     globalControllerScope = $scope;
+    publicControllers['globalController'] = $scope;
 
     registerGlobalWSSocketMethods(socket, $scope);
 

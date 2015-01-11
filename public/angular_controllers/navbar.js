@@ -15,6 +15,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
 }]);
 
 app.controller('navbarController', function($scope) {
+    publicControllers['navbarController'] = $scope;
     $scope.onlineCount = 0;
 
     $scope.user = null;

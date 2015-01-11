@@ -20,6 +20,8 @@ var wsUser = function(data) {
     self.relationsIDs = data.relationsIDs;
     self.sessionID = data.sessionID;
 
+    self.ircChannels = []; //подписка на каналы
+
     self.socketType = data.socketType;
 
     self.findForSession = function(wsUsers, onFind) {
@@ -35,7 +37,6 @@ var wsUser = function(data) {
     };
 
     // смотрим, не открыто ли унас уже соединения с этим пользователем,
-    // todo:
     // помним что соединение может присутствовать в массиве но быть уже протухшим и оно будет автоматически
     // удалено в дальнейшем
     self.initSession = function(sessionID, cb) {

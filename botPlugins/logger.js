@@ -6,28 +6,43 @@
 
 var irclog = require('../models/irclog');
 
+var sendToSubscribers = function(target, data) {
+
+    var wsUsers = process.wsObserver.wsUsers;
+
+    for (var userKey in wsUsers) {
+        var user = null;
+        if (wsUsers.hasOwnProperty(userKey)) {
+            user = wsUsers[userKey];
+        }
+        if (!user) return false;
+
+        user.ircChannels.forEach(function(channelName) {
+
+            if ('#'+channelName === target && typeof user.socket == 'object') {
+                user.socket.emit('runScopeMethod', {
+                    controllerName: 'channelController',
+                    methodName: 'chatRoomUpdate',
+                    argument: data
+                });
+            }
+        });
+
+    }
+};
+
 module.exports = {
     'message': function(nick, target, message) {
-        var client = this;
+        //var client = this;
 
-        irclog.add(target, nick, message);
+        var logObj = irclog.add(target, nick, message);
 
-        var wsUsers = process.wsObserver.wsUsers;
-
-        for (var userKey in wsUsers) {
-            var user = wsUsers[userKey];
-            /*
-            user.socket.emit('runScopeMethod', {
-                controllerName: 'navbarController',
-                methodName: 'addToChatLine',
-                argument: {
-                    target: target,
-                    nick:nick,
-                    message:message
-                }
-            });
-            */
-        }
+        sendToSubscribers(target, {
+            target: target,
+            date: logObj.date,
+            nick: nick,
+            message: message
+        })
 
     }
 };
