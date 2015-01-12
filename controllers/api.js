@@ -59,6 +59,21 @@ module.exports = function() {
         }
     });
 
+    jsonRpc.reg('getLastIRCLog', function(params, respond, ext){
+        var irclog = require('../models/irclog');
+
+        irclog.find({channel: '#'+ params.channel})
+              .limit(100)
+              .exec(function (err, data) {
+                    if (err) {
+                        respond({ error: err });
+                        return false;
+                    }
+                    respond({ result: data });
+                });
+
+    });
+
     jsonRpc.reg('login', function(params, respond, ext){
 
     });

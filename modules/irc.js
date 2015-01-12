@@ -79,6 +79,7 @@ var irc = function(config) {
         var mergeOpt =  extend({}, opt, {port:item.port});
 
         var client = new irc.Client(item.server, 'jsBotter', mergeOpt);
+        client['_networkName'] = item.networkName;
 
         client.connect(3, function(connectInfo) {
             onConnect(connectInfo, item.channels, this);
@@ -88,6 +89,7 @@ var irc = function(config) {
         client.addListener('join', onJoin);
         client.addListener('pm', onPrivate);
         client.addListener('error', onError);
+
 
         loadPlugins(path_module.join(__dirname, '../botPlugins'), function(plugin) {
             for (var plTrigger in plugin) {

@@ -33,13 +33,23 @@ var sendToSubscribers = function(target, data) {
 
 module.exports = {
     'message': function(nick, target, message) {
-        //var client = this;
+        var client = this;
 
-        var logObj = irclog.add(target, nick, message);
+        var log = new irclog();
+
+        log.nick = nick;
+        log.channel = target;
+        log.networkName = client._networkName;
+        log.message = message;
+        log.date = new Date();
+
+        log.save(function (err) {
+            if (err) console.log('botPlugins->logger->message save error::', err);
+        });
 
         sendToSubscribers(target, {
-            target: target,
-            date: logObj.date,
+            channel: target,
+            date: log.date,
             nick: nick,
             message: message
         })

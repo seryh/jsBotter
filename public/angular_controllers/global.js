@@ -14,6 +14,7 @@ var registerGlobalWSSocketMethods = function(socket, $scope) {
 
     socket.on('jsonRPCResponse', function(resp){
         //console.log('jsonRPCResponse::', resp);
+        //todo: прикрутить обертку отлова конктертного ответа за запрос по id
     });
 
     socket.on('connect_error', function(err){
@@ -111,8 +112,8 @@ app.controller('globalController', function($scope, $cookieStore, $modal, $cooki
 
 
     $scope.getUserInfo = function(cb) {
-        var cb = cb || function(){},
-            query = {"jsonrpc":"2.0","method":"getUserInfo","params":{},"id":1};
+        cb = cb || function(){};
+        var query = {"jsonrpc":"2.0","method":"getUserInfo","params":{},"id":1};
         $.ajax({
             url: '/api',
             data: JSON.stringify(query),
