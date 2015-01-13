@@ -49,6 +49,7 @@ var irc = function(config) {
 
             client.send('/set charset utf8');
             client.send('/charset utf8');
+            client.send('/quote codepage utf8');
 
             channels.forEach(function (channel) {
                 client.join(channel, function() {
@@ -61,15 +62,14 @@ var irc = function(config) {
         },
         onMessage = function(nick, target, message) { /*все сообщения*/
             var client = this;
+
             if (message.indexOf('иди нахуй') > -1) {
-                if (target.indexOf('#') > -1) {
-                    client.say(target, nick+ ", сам иди");
-                }
+                client.say(target, nick+ ", сам иди");
             }
         },
         onPrivate = function(nick, message) { /*приватные сообщения*/
             var client = this;
-            client.say(nick, "тунца");
+            //client.say(nick, "тунца");
         },
         onError = function(message) {
             console.log('error: ', message);
@@ -89,7 +89,6 @@ var irc = function(config) {
         client.addListener('join', onJoin);
         client.addListener('pm', onPrivate);
         client.addListener('error', onError);
-
 
         loadPlugins(path_module.join(__dirname, '../botPlugins'), function(plugin) {
             for (var plTrigger in plugin) {

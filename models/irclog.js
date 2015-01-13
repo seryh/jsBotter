@@ -6,6 +6,7 @@ var irclogSchema = new Schema({
     , networkName  :  { type: String }
     , nick         :  { type: String }
     , message      :  { type: String }
+    , vhost        :  { type: String }
     , date         :  { type: Date }
 },  { collection: 'irclog' });
 

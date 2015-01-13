@@ -4,7 +4,8 @@
  * @type {irclog|exports}
  */
 
-var irclog = require('../models/irclog');
+var irclog = require('../models/irclog'),
+    util = require('util');
 
 var sendToSubscribers = function(target, data) {
 
@@ -32,7 +33,7 @@ var sendToSubscribers = function(target, data) {
 };
 
 module.exports = {
-    'message': function(nick, target, message) {
+    'message': function(nick, target, message, raw) {
         var client = this;
 
         var log = new irclog();
@@ -41,6 +42,7 @@ module.exports = {
         log.channel = target;
         log.networkName = client._networkName;
         log.message = message;
+        log.vhost =  util.format('%s@%s', raw.user, raw.host) ;
         log.date = new Date();
 
         log.save(function (err) {
