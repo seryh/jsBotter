@@ -1,4 +1,4 @@
-app.controller('channelController', function($scope, $stateParams) {
+app.controller('channelController', function($scope, $stateParams, $jsonrpc) {
     //console.log('channelController::', $stateParams);
 
     publicControllers['channelController'] = $scope;
@@ -20,16 +20,13 @@ app.controller('channelController', function($scope, $stateParams) {
         $scope.$apply();
     };
 
-    $.ajax({
-        url: '/api',
-        data: JSON.stringify({"jsonrpc":"2.0","method":"getLastIRCLog","params":{"channel":$stateParams.name},"id":1}),
-        type: 'POST',
-        cache: false,
-        dataType : "json",
-        success: function (response) {
-            $scope.chat = response.result;
-            $scope.$apply();
+    $jsonrpc.API.call('getLastIRCLog', {"channel":$stateParams.name}, function(response, rpcObject, xhr) {
+        if ($jsonrpc.API.isErrorRpcResponse(response)) {
+            $jsonrpc.API.showRPCError(response);
+            return false;
         }
+        $scope.chat = response.result;
+        $scope.$apply();
     });
 
     if (!window.socket) return false;

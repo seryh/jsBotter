@@ -14,7 +14,7 @@ app.config(['$stateProvider', '$urlRouterProvider', function ($stateProvider, $u
         });
 }]);
 
-app.controller('navbarController', function($scope) {
+app.controller('navbarController', function($scope, $jsonrpc) {
     publicControllers['navbarController'] = $scope;
     $scope.onlineCount = 0;
 
@@ -27,6 +27,9 @@ app.controller('navbarController', function($scope) {
     //console.log($scope.$parent.getUserInfo);
 
     $scope.$parent.getUserInfo(function(response){
+        if ($jsonrpc.API.isErrorRpcResponse(response)) {
+            $jsonrpc.API.showRPCError(response);
+        }
         $scope.user = response.result.user;
         $scope.$apply();
     });

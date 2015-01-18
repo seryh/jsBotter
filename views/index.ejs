@@ -37,7 +37,7 @@
 
 <script type="text/ng-template" id="modal.html">
     <div class="modal-header">
-        <h3 class="modal-title">Alert!</h3>
+        <h3 class="modal-title">{{title || 'Alert!'}}</h3>
     </div>
     <div class="modal-body">
         {{content}}
@@ -86,7 +86,8 @@
 </div> <!-- /container -->
 
 
-
+<script src="/public/angular_modules/uuid.js"></script>
+<script src="/public/angular_modules/jsonrpc.js"></script>
 <script src="/public/angular_controllers/global.js"></script>
 <script src="/public/angular_controllers/navbar.js"></script>
 <script src="/public/angular_controllers/main.js"></script>

@@ -29,7 +29,7 @@ var jsonRpc = function() {
             "properties": {
                 "jsonrpc": {"required": true, "type": "string"},
                 "method": {"required": true, "type": "string"},
-                "id": {"required": true, "type": "integer"},
+                "id": {"required": true, "type": ["integer", "string"]},
                 "params": {"required": true}
             }
         };

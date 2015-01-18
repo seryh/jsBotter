@@ -1,4 +1,4 @@
-var app = angular.module('karabamba', ['ngCookies', 'ui.bootstrap', 'ui.router']);
+var app = angular.module('karabamba', ['ngCookies', 'ui.bootstrap', 'ui.router', 'jsonrpc']);
 
 var registerGlobalWSSocketMethods = function(socket, $scope) {
 
@@ -44,7 +44,9 @@ var publicControllers = {},
     globalControllerScope = null;
 
 /* Посути фронтенд апи вызываемое с бекенда */
-app.controller('globalController', function($scope, $cookieStore, $modal, $cookies) {
+app.controller('globalController', function($scope, $cookieStore, $modal, $cookies, $jsonrpc) {
+
+    //console.log('$jsonrpc->',$jsonrpc);
 
     /* чтобы в консоле браузера можно было тестировать, например: globalControllerScope.modal("foo bar") */
     globalControllerScope = $scope;
@@ -83,49 +85,23 @@ app.controller('globalController', function($scope, $cookieStore, $modal, $cooki
     };
 
     $scope.addToSession = function(data) {
-        var query = {"jsonrpc":"2.0","method":"addToSession","params":data,"id":1};
-        $.ajax({
-            url: '/api',
-            data: JSON.stringify(query),
-            type: 'POST',
-            cache: false,
-            dataType : "json",
-            success: function (response) {
-                console.log('jsonRPCResponse post ajax::',response);
-            }
+        $jsonrpc.API.call('addToSession', data, function(responseJSON, rpcObject, xhr) {
+            console.log('jsonRPCResponse post ajax::',response);
         });
     };
 
     $scope.getSession = function() {
-        var query = {"jsonrpc":"2.0","method":"getSession","params":{},"id":1};
-        $.ajax({
-            url: '/api',
-            data: JSON.stringify(query),
-            type: 'POST',
-            cache: false,
-            dataType : "json",
-            success: function (response) {
-                console.log('jsonRPCResponse post ajax::',response);
-            }
+        $jsonrpc.API.call('getSession', {}, function(responseJSON, rpcObject, xhr) {
+            console.log('jsonRPCResponse post ajax::',responseJSON);
         });
     };
-
 
     $scope.getUserInfo = function(cb) {
         cb = cb || function(){};
-        var query = {"jsonrpc":"2.0","method":"getUserInfo","params":{},"id":1};
-        $.ajax({
-            url: '/api',
-            data: JSON.stringify(query),
-            type: 'POST',
-            cache: false,
-            dataType : "json",
-            success: function (response) {
-                cb(response);
-            }
+        $jsonrpc.API.call('getUserInfo', {}, function(responseJSON, rpcObject, xhr) {
+            cb(responseJSON);
         });
     };
-
 
     //setTimeout(function() {
     //    $scope.getSession();
