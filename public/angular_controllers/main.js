@@ -1,23 +1,3 @@
-/**
- * Example angular controller
- */
-
-app.directive('spendingDatepickerList', function($compile) {
-    return {
-        restrict: 'E',
-        replace: true,
-        transclude: true,
-        templateUrl: '/spending-template-datepicker.html',
-        compile: function(element, attrs, transclude) {
-            return function(scope) {
-                transclude(scope.$parent, function(clone) {
-                    scope.spendingDatepickerList = JSON.parse( clone.html() );
-                });
-            }
-        }
-    };
-});
-
 app.filter('sortByName', function() {
     return function(array, name) {
         var sortArray = _.sortBy(array, function(item){
@@ -46,20 +26,8 @@ app.controller('mainController', function($scope, $filter, $cookies) {
 
     //console.log( $cookies['SESSION-GUID'] );
 
-    $scope.spendingDatepickerList = [];
-
-    $scope.alerts = [{msg: 'Example alert', type: 'success'}];
-
-    $scope.addAlert = function(msg) {
-        $scope.alerts.push({msg: msg});
-    };
-
     $scope.link = function(link) {
         window.location.assign(link);
-    };
-
-    $scope.closeAlert = function(index) {
-        $scope.alerts.splice(index, 1);
     };
 
     $scope.sortByName = function(name) {
