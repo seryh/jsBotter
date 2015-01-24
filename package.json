@@ -4,6 +4,7 @@
 	"description": "irc bot with web UI",
 	"author": "Seryh",
 	"dependencies": {
+	    "pushbullet":"1.4.2",
 		"irc":"0.3.8",
 		"socket.io":"1.2.0",
 		"extend":"2.0.0",
