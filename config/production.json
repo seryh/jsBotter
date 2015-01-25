@@ -9,7 +9,7 @@
   },
   "jsBotter": {
     "join": [
-      { "server": "filezz.ru", "port":6667, "networkName": "IrcCity", "channels" : ["#jsBotter", "#karamba"] }
+      { "server": "filezz.ru", "port":6667, "networkName": "IrcCity", "channels" : ["#jsBotter", "#nnm"] }
     ]
   }
 }
