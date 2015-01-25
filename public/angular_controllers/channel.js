@@ -27,10 +27,12 @@ app.controller('channelController', function($scope, $stateParams, $jsonrpc) {
         $scope.$apply();
     });
 
-    if (!window.socket) return false;
-
     $jsonrpc.API.emit('setIRCChannel', {"channel":$stateParams.name}, function(response, rpcObject, emit) {
-        //console.log('setIRCChannel response::',response);
+        if ($jsonrpc.API.isErrorRpcResponse(response)) {
+            $jsonrpc.API.showRPCError(response);
+            return false;
+        }
+        //console.log('setIRCChannel response::',response, emit);
     });
 
 });

@@ -21,6 +21,7 @@ var sendToSubscribers = function(target, data) {
         user.ircChannels.forEach(function(channelName) {
 
             if ('#'+channelName === target && typeof user.socket == 'object') {
+
                 user.socket.emit('runScopeMethod', {
                     controllerName: 'channelController',
                     methodName: 'chatRoomUpdate',

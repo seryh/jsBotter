@@ -39,6 +39,8 @@ app.controller('globalController', function($scope, $cookieStore, $modal, $cooki
     globalControllerScope = $scope;
     publicControllers['globalController'] = $scope;
 
+    window.API = $jsonrpc.API;
+
     registerGlobalWSSocketMethods(socket, $scope, $jsonrpc);
 
     $scope.cookies = $cookies;
