@@ -43,7 +43,6 @@ app.controller('globalController', function($scope, $cookieStore, $modal, $cooki
 
     $scope.cookies = $cookies;
 
-    /* присвоить куку */
     $scope.setCookies = function(obj) {
         $cookieStore.put(obj.name,obj.value);
     };
@@ -70,13 +69,13 @@ app.controller('globalController', function($scope, $cookieStore, $modal, $cooki
 
     $scope.addToSession = function(data) {
         $jsonrpc.API.call('addToSession', data, function(responseJSON, rpcObject, xhr) {
-            console.log('jsonRPCResponse post ajax::',response);
+            //console.log('jsonRPCResponse post ajax::',response);
         });
     };
 
     $scope.getSession = function() {
         $jsonrpc.API.call('getSession', {}, function(responseJSON, rpcObject, xhr) {
-            console.log('jsonRPCResponse post ajax::',responseJSON);
+            //console.log('jsonRPCResponse post ajax::',responseJSON);
         });
     };
 
