@@ -129,6 +129,11 @@ var _push = function(client, nick, target, message, raw) {
 
 };
 
+//todo: двоятся пуши
+//todo: прикрутить антифлуд
+//todo: дубли юзеров при реге токенов
+//todo: регистронезависимость ника при пуше
+
 module.exports = {
     'message': function(nick, target, message, raw) {
         _push(this, nick, target, message, raw);
