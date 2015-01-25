@@ -247,7 +247,6 @@ angular.module('jsonrpc', ['uuid', 'ui.bootstrap']).service('$jsonrpc', function
             data = JSON.stringify(rpcObject);
         }
 
-        //if (self.isSocketAvalible === false) {
         if (Boolean(window.socket) === false ) {
             this.call(method, params, callback);
             return false;

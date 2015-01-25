@@ -6,6 +6,9 @@
 
 var PushBullet = require('pushbullet');
 
+var pushbulletModel = require('../models/pushbullet'),
+    util = require('util');
+
 module.exports = {
     'message': function(nick, target, message, raw) {
 
