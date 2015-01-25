@@ -23,9 +23,6 @@ app.filter('sortByNum', function() {
 });
 
 app.controller('mainController', function($scope, $filter, $cookies) {
-
-    //console.log( $cookies['SESSION-GUID'] );
-
     $scope.link = function(link) {
         window.location.assign(link);
     };

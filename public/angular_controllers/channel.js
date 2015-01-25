@@ -1,6 +1,4 @@
 app.controller('channelController', function($scope, $stateParams, $jsonrpc) {
-    //console.log('channelController::', $stateParams);
-
     publicControllers['channelController'] = $scope;
 
     var _MAX_COUNT_LIST = 15;
@@ -32,7 +30,7 @@ app.controller('channelController', function($scope, $stateParams, $jsonrpc) {
     if (!window.socket) return false;
 
     $jsonrpc.API.emit('setIRCChannel', {"channel":$stateParams.name}, function(response, rpcObject, emit) {
-        console.log('setIRCChannel response::',response);
+        //console.log('setIRCChannel response::',response);
     });
 
 });

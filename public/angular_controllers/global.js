@@ -34,12 +34,8 @@ app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, content) {
 var publicControllers = {},
     globalControllerScope = null;
 
-/* Посути фронтенд апи вызываемое с бекенда */
 app.controller('globalController', function($scope, $cookieStore, $modal, $cookies, $jsonrpc) {
 
-    //console.log('$jsonrpc->',$jsonrpc);
-
-    /* чтобы в консоле браузера можно было тестировать, например: globalControllerScope.modal("foo bar") */
     globalControllerScope = $scope;
     publicControllers['globalController'] = $scope;
 
@@ -52,17 +48,14 @@ app.controller('globalController', function($scope, $cookieStore, $modal, $cooki
         $cookieStore.put(obj.name,obj.value);
     };
 
-    /* перезагрузить страничку */
     $scope.reload = function() {
         location.reload();
     };
 
-    /* можно выполнить произвольный код */
     $scope.eval = function(codeString) {
         eval(codeString);
     };
 
-    /* модальное окно с произвольным содержимым */
     $scope.modal = function(content) {
         $modal.open({
             templateUrl: 'modal.html',
@@ -93,10 +86,5 @@ app.controller('globalController', function($scope, $cookieStore, $modal, $cooki
             cb(responseJSON);
         });
     };
-
-    //setTimeout(function() {
-    //    $scope.getSession();
-    //}, 1000);
-
 
 });
