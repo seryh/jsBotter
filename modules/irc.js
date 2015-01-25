@@ -53,7 +53,7 @@ var irc = function(config) {
 
             channels.forEach(function (channel) {
                 client.join(channel, function() {
-                    client.say(channel, "Всем тунца");
+                    //client.say(channel, "Всем тунца");
                 });
             });
         },

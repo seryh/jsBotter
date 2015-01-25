@@ -1,24 +1,16 @@
 var app = angular.module('karabamba', ['ngCookies', 'ui.bootstrap', 'ui.router', 'jsonrpc']);
 
-var registerGlobalWSSocketMethods = function(socket, $scope) {
+var registerGlobalWSSocketMethods = function(socket, $scope, $jsonrpc) {
 
     if (!socket) return false;
 
     socket.on('connect', function(){
-        //todo: прикрутить/написать обертку клиенского вызова json rpc api
+
         var session = /s:(.*)\./ig.exec($scope.cookies['connect.sid'])[1];
-        var query = [{"jsonrpc":"2.0","method":"setSessionToSocket","params":{"session":session},"id":1}];
-        socket.emit('jsonRPC', JSON.stringify(query));
-    });
 
-
-    socket.on('jsonRPCResponse', function(resp){
-        //console.log('jsonRPCResponse::', resp);
-        //todo: прикрутить обертку отлова конктертного ответа за запрос по id
-    });
-
-    socket.on('connect_error', function(err){
-
+        $jsonrpc.API.emit('setSessionToSocket', {"session":session}, function(response, rpcObject, emit) {
+            //console.log('setSessionToSocket response::',response);
+        });
     });
 
     socket.on('runScopeMethod', function (wsData) {
@@ -31,7 +23,6 @@ var registerGlobalWSSocketMethods = function(socket, $scope) {
 };
 
 app.controller('ModalInstanceCtrl', function ($scope, $modalInstance, content) {
-
     $scope.content = content;
 
     $scope.ok = function () {
@@ -52,7 +43,7 @@ app.controller('globalController', function($scope, $cookieStore, $modal, $cooki
     globalControllerScope = $scope;
     publicControllers['globalController'] = $scope;
 
-    registerGlobalWSSocketMethods(socket, $scope);
+    registerGlobalWSSocketMethods(socket, $scope, $jsonrpc);
 
     $scope.cookies = $cookies;
 

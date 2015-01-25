@@ -9,14 +9,77 @@ angular.module('jsonrpc', ['uuid', 'ui.bootstrap']).service('$jsonrpc', function
         "transportAPI": "POST"
     };
 
-    var API = function () {
-        this.xhrsActive = [];
-    };
-
     var _clearParams = function(params) {
         delete params["API"];
         delete params["transportAPI"];
         return params;
+    };
+
+    var API = function () {
+        var self = this;
+
+        this.timeOutSec = 60;
+        this.xhrsActive = [];
+        this.cocketActive = {};
+        this.isSocketAvalible = false;
+
+        if (!socket) return false;
+
+        socket.on('jsonRPCResponse', function(resp){
+
+            if (Object.prototype.toString.call( resp ) === '[object Object]') {
+                var index = -1;
+                for (var uuid in self.cocketActive) {
+
+                    index++;
+                    var emit = null;
+                    if (self.cocketActive.hasOwnProperty(uuid)) {
+                        emit = self.cocketActive[uuid];
+                    }
+                    if (!Boolean(emit)) return false;
+                    emit.status = 200;
+
+                    if (uuid === resp.id) {
+                        emit.callback(resp, emit.data, emit);
+                        delete self.cocketActive[uuid];
+                        break;
+                    }
+                }
+
+            } else if (Object.prototype.toString.call( resp ) === '[object Array]') {
+                self.showRPCErrorPlain('Массив данных на сокетах пока не поддерживается');
+            }
+
+        });
+
+        socket.on('connect_error', function(err){
+            self.isSocketAvalible = false;
+        });
+
+        socket.on('connect', function(){
+            self.isSocketAvalible = true;
+        });
+
+        var _watcher = function() {
+            //очищаем cocketActive по таймауту, выводим ошибку timeout в клиент
+            var index = -1;
+            for (var uuid in self.cocketActive) {
+                index++;
+                var emit = null;
+                if (self.cocketActive.hasOwnProperty(uuid)) {
+                    emit = self.cocketActive[uuid];
+                }
+                if (!Boolean(emit)) return false;
+                var _now = Math.floor(new Date().getTime() / 1000);
+                if ((_now - emit.date) > self.timeOutSec) {
+                    self.showRPCErrorPlain('Timeout error, query - '+emit.data.method + ' uuid:'+uuid, uuid);
+                    delete self.cocketActive[uuid];
+                    break;
+                }
+            }
+        };
+
+        setInterval(_watcher,1000);
     };
 
     API.prototype.xhrRemove = function(xhr) {
@@ -131,6 +194,11 @@ angular.module('jsonrpc', ['uuid', 'ui.bootstrap']).service('$jsonrpc', function
         this.xhrsActive.push(xhr);
     };
 
+    API.prototype.showRPCErrorPlain = function(text, id) {
+        id = id || 1;
+        this.showRPCError({"jsonrpc": "2.0", "error": {"code": -32601, "message": text}, "id": id});
+    };
+
     API.prototype.showRPCError = function (rpcResponse, onOk) {
         onOk = onOk || function () {};
         var self = this;
@@ -167,15 +235,40 @@ angular.module('jsonrpc', ['uuid', 'ui.bootstrap']).service('$jsonrpc', function
 
     };
 
+    API.prototype.emit = function(method, params, callback) {
+        var _GLOBAL_OPTIONS = jsonrpc.config,
+            uuid = uuid4.generate();
+        var rpcObject = this.dataToRPCFormat(_clearParams($.extend({},_GLOBAL_OPTIONS, params)), method, uuid),
+            self = this,
+            data = null;
+        if (_GLOBAL_OPTIONS.transportAPI == 'GET') {
+            data = {rawRequest : JSON.stringify(rpcObject)};
+        } else if (_GLOBAL_OPTIONS.transportAPI == 'POST') {
+            data = JSON.stringify(rpcObject);
+        }
+
+        if (self.isSocketAvalible === false) {
+            this.call(method, params, callback);
+            return false;
+        }
+
+        socket.emit('jsonRPC', data);
+
+        this.cocketActive[uuid] = {
+            callback: callback,
+            data: rpcObject,
+            type: 'socket',
+            status: null,
+            date: Math.floor(new Date().getTime() / 1000)
+        };
+
+    };
+
     jsonrpc.setConfig = function(conf) {
         return $.extend(jsonrpc.config, conf);
     };
 
     jsonrpc.API =  new API();
 
-
-
-
-    //console.log('socket',socket);
 
 });

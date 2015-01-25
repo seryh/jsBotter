@@ -7,7 +7,6 @@ module.exports = function() {
     jsonRpc.reg('setSessionToSocket', function (params, respond, ext) {
 
         if (ext.providerType == 'socket') {
-
             ext.socket.user.initSession(params.session, function(err, sessionInfo) {
                 respond({ result: sessionInfo });
             });

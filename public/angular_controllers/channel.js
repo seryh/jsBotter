@@ -31,7 +31,8 @@ app.controller('channelController', function($scope, $stateParams, $jsonrpc) {
 
     if (!window.socket) return false;
 
-    socket.emit('jsonRPC', JSON.stringify({"jsonrpc":"2.0","method":"setIRCChannel","params":{"channel":$stateParams.name},"id":1}));
-
+    $jsonrpc.API.emit('setIRCChannel', {"channel":$stateParams.name}, function(response, rpcObject, emit) {
+        console.log('setIRCChannel response::',response);
+    });
 
 });
