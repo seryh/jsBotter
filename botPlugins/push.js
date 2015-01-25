@@ -70,7 +70,7 @@ var _regPushToken = function(client, nick, message, raw) {
 var _getPushToken = function(client, nick, message, raw) {
     var re = /^(!getpush)/gi,
         commandArr = re.exec(message),
-        vhost = vhost =  util.format('%s@%s', raw.user, raw.host);
+        vhost = util.format('%s@%s', raw.user, raw.host);
 
     if (commandArr === null) return false;
 
