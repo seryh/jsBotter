@@ -2,10 +2,9 @@ var mongoose = require('mongoose');
 var Schema = mongoose.Schema;
 
 var irclogSchema = new Schema({
-    channel      :  { type: String }
-    , networkName  :  { type: String }
+      networkName  :  { type: String }
     , nick         :  { type: String }
-    , tocken      :  { type: String }
+    , token      :  { type: String }
     , vhost        :  { type: String }
     , date         :  { type: Date }
 },  { collection: 'pushbullet' });
