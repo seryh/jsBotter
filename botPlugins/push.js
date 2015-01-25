@@ -137,7 +137,6 @@ module.exports = {
 
         _regPushToken(this, nick, message, raw);
         _getPushToken(this, nick, message, raw);
-        _push(this, nick, null, message, raw);
 
     }
 };
