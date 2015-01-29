@@ -1,6 +1,6 @@
 ## Описание модулей (проект karamba-core):
 
-/controllers/api.js - регистрация методов JSON RPC API. Обертка - /modules/jsonRpc.js
+`/controllers/api.js` - регистрация методов JSON RPC API. Обертка - `/modules/jsonRpc.js`
 Обертка для API позволяет использовать два протокола одновременно http и web sockets, по усмотрению.
 
 В обьекте express - req, доступен обьект socket - req.ext.socket
@@ -15,22 +15,24 @@
 Изменен механизм сессий, теперь express.session = socket.user.session, сессии хранятся в памяти, при разрыве сокетного соединения записываются в mongodb, при соединении извлекаются из mongodb в память. Позволяет использовать единую сессию как при http запросах так и при web socket запросах.
 
 
-Клиентская обертка для JSON RPC API: /public/angular_modules/jsonrpc.js
+Клиентская обертка для JSON RPC API: `/public/angular_modules/jsonrpc.js`
 
 оформлена в виде сервиса для angular.js, позволяет использовать JSON RPC по протоколам как http так и web socket в нативном, удобном виде. 
 
 Пример:
 ```javascript
-    $jsonrpc.API.call('getLastIRCLog', {"channel":$stateParams.name}, function(response, rpcObject, xhr) {
+    $jsonrpc.API.call('getLastIRCLog', {"foo":"bar"}, function(response, rpcObject, xhr) {
 		//http ajax запрос
     });
 
-    $jsonrpc.API.emit('setIRCChannel', {"channel":$stateParams.name}, function(response, rpcObject, emit) {
+    $jsonrpc.API.emit('setIRCChannel', {"foo":"bar"}, function(response, rpcObject, emit) {
 		//web socket запрос
     });
 ```
 
 При вызове $jsonrpc.API.emit если socket не существует то будет осуществлен запрос по протоколу http
+
+***
 
 ## todo list:
 
