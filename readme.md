@@ -34,7 +34,7 @@
 
 ***
 
-## todo list:
+## todo list irc bot:
 
 На frontend:
 
