@@ -101,7 +101,6 @@ var _clearing_active_list_loop = function() {
 
         var items = _ACTIVE_LIST[userMask];
         if (items.length === 0) {
-            console.log('_ACTIVE_LIST - delete _ACTIVE_LIST::', _ACTIVE_LIST);
             delete _ACTIVE_LIST[userMask];
             continue;
         }
@@ -110,7 +109,6 @@ var _clearing_active_list_loop = function() {
             var now = Math.floor(new Date().getTime() / 1000),
                 left = now - item.time;
             if (left >= (60*5)) { //5 minutes
-                console.log('_ACTIVE_LIST - time left::', _ACTIVE_LIST);
                 items.splice(index, 1);
             }
 
@@ -147,7 +145,6 @@ var _push = function(client, nick, target, message, raw) {
             if (Boolean(_model) !== false) {
 
                 if ( Boolean(_ACTIVE_LIST[userMask]) === true && _ACTIVE_LIST[userMask].length >= 3) {
-                    console.log('_ACTIVE_LIST::', _ACTIVE_LIST);
                     if (target === null) {
                         client.say(nick, "полегче друже, не более 3 сообщений за 5 минут");
                     } else {
