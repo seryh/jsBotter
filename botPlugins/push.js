@@ -93,11 +93,39 @@ var _getPushToken = function(client, nick, message, raw) {
         });
 };
 
+var _ACTIVE_LIST = {};
+
+var _clearing_active_list_loop = function() {
+    for (var userMask in _ACTIVE_LIST) {
+        if( !_ACTIVE_LIST.hasOwnProperty(userMask) ) continue;
+
+        var items = _ACTIVE_LIST[userMask];
+        if (items.length === 0) {
+            console.log('_ACTIVE_LIST - delete _ACTIVE_LIST::', _ACTIVE_LIST);
+            delete _ACTIVE_LIST[userMask];
+            continue;
+        }
+
+        items.forEach(function (item, index) {
+            var now = Math.floor(new Date().getTime() / 1000),
+                left = now - item.time;
+            if (left >= (60*5)) { //5 minutes
+                console.log('_ACTIVE_LIST - time left::', _ACTIVE_LIST);
+                items.splice(index, 1);
+            }
+
+        });
+
+    }
+};
+
+setInterval(_clearing_active_list_loop, 1000); //1 second
 
 //!push Elected привет
 var _push = function(client, nick, target, message, raw) {
     var re = /^(!push) (\S+) (.+)/gi,
-        commandArr = re.exec(message);
+        commandArr = re.exec(message),
+        userMask = util.format('%s@%s@%s', raw.user, raw.host, client._networkName);
 
     if (commandArr === null) return false;
     var nickToSend = commandArr[2],
@@ -117,11 +145,35 @@ var _push = function(client, nick, target, message, raw) {
             }
 
             if (Boolean(_model) !== false) {
+
+                if ( Boolean(_ACTIVE_LIST[userMask]) === true && _ACTIVE_LIST[userMask].length >= 3) {
+                    console.log('_ACTIVE_LIST::', _ACTIVE_LIST);
+                    if (target === null) {
+                        client.say(nick, "полегче друже, не более 3 сообщений за 5 минут");
+                    } else {
+                        client.say(target, nick+ ", полегче друже, не более 3 сообщений за 5 минут");
+                    }
+                    return false;
+                }
+
+                if ( Boolean(_ACTIVE_LIST[userMask]) === true ) {
+                    _ACTIVE_LIST[userMask].push({
+                        'time' : Math.floor(new Date().getTime() / 1000),
+                        'nick' : nick
+                    })
+                } else {
+                    _ACTIVE_LIST[userMask] = [{
+                        'time' : Math.floor(new Date().getTime() / 1000),
+                        'nick' : nick
+                    }];
+                }
+
                 _bulletPush(_model.token,text, function(err) {
                     if (Boolean(err)) {
                         client.say(nick, "Произошла ошибка "+JSON.stringify(err));
                         return false;
                     }
+
                     client.say(nick, "Сообщение успешно отправлено юзеру - " + nickToSend);
                 });
             } else {
@@ -131,8 +183,6 @@ var _push = function(client, nick, target, message, raw) {
         });
 
 };
-
-//todo: прикрутить антифлуд
 
 module.exports = {
     'message': function(nick, target, message, raw) {
