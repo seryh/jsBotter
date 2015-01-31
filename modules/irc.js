@@ -63,8 +63,8 @@ var irc = function(config) {
         onMessage = function(nick, target, message) { /*все сообщения*/
             var client = this;
 
-            if (message.indexOf('иди нахуй') > -1) {
-                client.say(target, nick+ ", сам иди");
+            if (message.indexOf('jsBotter') > -1) {
+                client.say(target, nick+ ", я просто бот, вот все мои команды http://hipgip.me:8001");
             }
         },
         onPrivate = function(nick, message) { /*приватные сообщения*/
