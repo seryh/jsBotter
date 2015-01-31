@@ -64,7 +64,7 @@ var irc = function(config) {
             var client = this;
 
             if (message.indexOf('jsBotter') > -1) {
-                client.say(target, nick+ ", я просто бот, вот все мои команды http://hipgip.me:8001");
+                //client.say(target, nick+ ", я просто бот, вот все мои команды http://hipgip.me:8001");
             }
         },
         onPrivate = function(nick, message) { /*приватные сообщения*/
