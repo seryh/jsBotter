@@ -20,9 +20,12 @@ var _bulletPush = function(token, text, cb) {
         }
 
         response.devices.forEach(function(item, index){
-            pusher.note(item.iden, 'jsBotter', text, function(error, response) {
-                cb(error, response);
-            });
+            if (item.type === 'ios' || item.type === 'android') { // only mobile platform
+                pusher.note(item.iden, 'jsBotter', text, function(error, response) {
+                    cb(error, response);
+                });
+            }
+
         });
 
     });
@@ -129,9 +132,7 @@ var _push = function(client, nick, target, message, raw) {
 
 };
 
-//todo: двоятся пуши
 //todo: прикрутить антифлуд
-//todo: дубли юзеров при реге токенов
 //todo: регистронезависимость ника при пуше
 
 module.exports = {
