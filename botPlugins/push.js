@@ -77,7 +77,7 @@ var _getPushToken = function(client, nick, message, raw) {
 
     if (commandArr === null) return false;
 
-    pushbulletModel.findOne({networkName: client._networkName, nick:nick, vhost:vhost },
+    pushbulletModel.findOne({networkName: client._networkName, nick: new RegExp('^'+nick+'$', "i"), vhost:vhost },
         function (err, _model) {
             if (err) {
                 client.say(nick, "Произошла ошибка "+JSON.stringify(err));
@@ -109,7 +109,7 @@ var _push = function(client, nick, target, message, raw) {
         text = util.format('(%s) %s: %s', target, nick, commandArr[3]);
     }
 
-    pushbulletModel.findOne({networkName: client._networkName, nick:nickToSend },
+    pushbulletModel.findOne({networkName: client._networkName, nick: new RegExp('^'+nickToSend+'$', "i") },
         function (err, _model) {
             if (err) {
                 client.say(nick, "Произошла ошибка "+JSON.stringify(err));
@@ -133,7 +133,6 @@ var _push = function(client, nick, target, message, raw) {
 };
 
 //todo: прикрутить антифлуд
-//todo: регистронезависимость ника при пуше
 
 module.exports = {
     'message': function(nick, target, message, raw) {
