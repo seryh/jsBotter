@@ -18,6 +18,15 @@ function loadPlugins(path, cb) {
     });
 }
 
+var _help = function(client, nick, message, raw) {
+    var re = /^(!help)/gi,
+        commandArr = re.exec(message);
+
+    if (commandArr === null) return false;
+
+    client.say( nick, "читай тут http://hipgip.me:8001");
+};
+
 var irc = function(config) {
     var irc = require('irc')
         ,extend = require('extend')
@@ -26,7 +35,6 @@ var irc = function(config) {
     var _self = this;
 
     _self.clients = [];
-
 
     var opt = {
         userName: 'jsBotter',
@@ -63,12 +71,11 @@ var irc = function(config) {
         onMessage = function(nick, target, message) { /*все сообщения*/
             var client = this;
 
-            if (message.indexOf('jsBotter') > -1) {
-                //client.say(target, nick+ ", я просто бот, вот все мои команды http://hipgip.me:8001");
-            }
+
         },
-        onPrivate = function(nick, message) { /*приватные сообщения*/
-            var client = this;
+        onPrivate = function(nick, message, raw) { /*приватные сообщения*/
+
+            _help(this, nick, message, raw);
             //client.say(nick, "тунца");
         },
         onError = function(message) {
