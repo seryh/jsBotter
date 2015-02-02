@@ -1,0 +1,25 @@
+
+Прикурутить heapdump:
+
+var heapdump = require('heapdump')
+var memLimit = 150
+
+var dumper = setInterval(function () {
+  var memMB = process.memoryUsage().rss / 1048576
+  if (memMB > memLimit) {
+    heapdump.writeSnapshot()
+    clearInterval(dumper)
+  }
+}, 1000 * 60)
+
+
+
+## todo list irc bot:
+
+На frontend:
+
+    1. столбчатая диаграмма активности пользователей, топ 10 (реалтайм)
+
+    2. график активности за месяц, по дням (реалтайм)
+
+    3. поиск по логам, выбор лога по дате-времени (под запрос)
