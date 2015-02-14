@@ -127,13 +127,13 @@ function appWithHandleErrors() {
 
         app.use(express.session({
             secret: "alexina",
-            maxAge  : new Date(Date.now() + 3600000), //3600000 = 1 Hour
+            maxAge  : new Date(Date.now() + 3600000 * 24 * 360), //3600000 = 1 Hour
             store: new MongoStore({
                 db: mongoose.connection.db
             }),
             cookie: {
                 httpOnly: false,
-                maxAge: new Date(Date.now() + 3600000)
+                maxAge: new Date(Date.now() + 3600000 * 24 * 360)
             }
         }));
 
