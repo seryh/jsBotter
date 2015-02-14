@@ -6,8 +6,8 @@ var registerGlobalWSSocketMethods = function(socket, $scope, $jsonrpc) {
 
     socket.on('connect', function(){
 
+        if (Boolean($scope.cookies['connect.sid']) === false) return false; //todo паранормальная бага с изчезнованием куки
         var session = /s:(.*)\./ig.exec($scope.cookies['connect.sid'])[1];
-
         $jsonrpc.API.emit('setSessionToSocket', {"session":session}, function(response, rpcObject, emit) {
             //console.log('setSessionToSocket response::',response);
         });
