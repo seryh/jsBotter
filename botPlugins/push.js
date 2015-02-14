@@ -93,6 +93,33 @@ var _getPushToken = function(client, nick, message, raw) {
         });
 };
 
+var _getList = function(client, nick, message, raw) {
+    var re = /^(!getlist)/gi,
+        commandArr = re.exec(message);
+
+    if (commandArr === null) return false;
+
+    pushbulletModel.find({networkName: client._networkName},
+        function (err, _models) {
+            if (err) {
+                client.say(nick, "Произошла ошибка "+JSON.stringify(err));
+                return false;
+            }
+
+            var list = '';
+            _models.forEach(function(item, index){
+                list = list + item.nick + ', ';
+            });
+
+            if (Boolean(list) === false) {
+                client.say(nick, "Нет push пользователей :(");
+            } else {
+                client.say(nick, "user list: " + list);
+            }
+
+        });
+};
+
 var _ACTIVE_LIST = {};
 
 var _clearing_active_list_loop = function() {
@@ -189,6 +216,7 @@ module.exports = {
 
         _regPushToken(this, nick, message, raw);
         _getPushToken(this, nick, message, raw);
+        _getList(this, nick, message, raw);
 
     }
 };
