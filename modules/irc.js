@@ -28,7 +28,7 @@ var _help = function(client, nick, message, raw) {
 };
 
 var irc = function(config) {
-    var irc = require('irc')
+    var irc = require('../modules/ircfork/irc')
         ,extend = require('extend')
         ,util = require('util');
 
