@@ -18,7 +18,6 @@
 		"underscore": "1.7.0",
 		"acl": "0.4.4",
 		"ansi-color": "0.2.1",
-		"iconv": "~2.1.4",
-		"node-icu-charset-detector": "0.0.7"
+		"iconv": "~2.1.4"
 	}
 }
