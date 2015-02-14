@@ -62,13 +62,16 @@ module.exports = function() {
         var irclog = require('../models/irclog');
 
         irclog.find({channel: '#'+ params.channel})
+              .sort({date: -1})
               .limit(100)
-              .exec(function (err, data) {
+              .exec(function (err, collections) {
                     if (err) {
                         respond({ error: err });
                         return false;
                     }
-                    respond({ result: data });
+
+                    collections.sort({date: 1});
+                    respond({ result: collections });
                 });
 
     });
