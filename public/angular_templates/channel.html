@@ -1,17 +1,15 @@
 <h2>#{{channelName}}</h2>
 
-<table class="table">
-    <thead>
-    <tr>
-        <th style="width: 200px;"></th>
-        <th></th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr ng-repeat="item in chat">
-        <td><strong>{{item.date | date:'dd.MM.yyyy HH:mm.ss'}}</strong></td>
-        <td>{{item.nick}}: {{item.message}}</td>
-
-    </tr>
-    </tbody>
-</table>
+    <div id="chat-box">
+        <table class="table">
+            <tbody>
+            <tr ng-repeat="item in chat" ng-class="{'newmsg': item.newMsg}">
+                <td class="chat-date">
+                    <span>{{item.date | date:'dd.MM.yyyy'}}</span></span><br />
+                    <strong>{{item.date | date:'HH:mm'}}</strong>
+                </td>
+                <td class="chat-msg"><span class="chat-nick">{{item.nick}}</span>: {{item.message}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>

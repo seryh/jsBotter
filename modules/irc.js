@@ -24,7 +24,7 @@ var _help = function(client, nick, message, raw) {
 
     if (commandArr === null) return false;
 
-    client.say( nick, "читай тут http://hipgip.me:8001");
+    client.say( nick, "читай тут http://"+process.config.domain);
 };
 
 var irc = function(config) {

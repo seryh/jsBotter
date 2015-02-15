@@ -3,6 +3,10 @@
 	"version": "0.0.1",
 	"description": "irc bot with web UI",
 	"author": "Seryh",
+	"scripts": {
+	  "start": "NODE_ENV=production forever start app.js",
+	  "test": "NODE_ENV=development forever start app.js"
+	},
 	"dependencies": {
 	    "pushbullet":"1.4.2",
 		"socket.io":"1.2.0",

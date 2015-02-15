@@ -60,10 +60,11 @@ module.exports = function() {
 
     jsonRpc.reg('getLastIRCLog', function(params, respond, ext){
         var irclog = require('../models/irclog');
+        params.limit = params.limit || 50;
 
         irclog.find({channel: '#'+ params.channel})
               .sort({date: -1})
-              .limit(100)
+              .limit(params.limit)
               .exec(function (err, collections) {
                     if (err) {
                         respond({ error: err });

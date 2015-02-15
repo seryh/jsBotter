@@ -7,9 +7,10 @@
     "username": "",
     "password": ""
   },
+  "domain":"jsbotter.hipgip.me",
   "jsBotter": {
     "join": [
-      { "server": "filezz.ru", "port":6667, "networkName": "IrcCity", "channels" : ["#jsBotter"] }
+      { "server": "filezz.ru", "port":6667, "networkName": "IrcCity", "channels" : ["#jsBotter", "#nnm"] }
     ]
   }
 }
