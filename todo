@@ -1,22 +1,9 @@
 
-Прикурутить heapdump:
-
-var heapdump = require('heapdump')
-var memLimit = 150
-
-var dumper = setInterval(function () {
-  var memMB = process.memoryUsage().rss / 1048576
-  if (memMB > memLimit) {
-    heapdump.writeSnapshot()
-    clearInterval(dumper)
-  }
-}, 1000 * 60)
-
-
-
 ## todo list irc bot:
 
 На frontend:
+
+    0. Список юзеров на канале #/channel/nnnn
 
     1. столбчатая диаграмма активности пользователей, топ 10 (реалтайм)
 
