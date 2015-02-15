@@ -139,7 +139,7 @@ function appWithHandleErrors() {
         app.use(express.methodOverride());
         app.use(app.router);
 
-        //var ircClients = new require(appInfo.modulesDir + '/irc.js')(app.config.jsBotter);
+        var ircClients = new require(appInfo.modulesDir + '/irc.js')(app.config.jsBotter);
     });
 
     load('routes').into(app, libs, appInfo);
