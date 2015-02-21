@@ -1043,10 +1043,11 @@ function parseMessage(line, stripColors) {
     if (match) {
         message.prefix = match[1];
         line = line.replace(/^:[^ ]+ +/, '');
-        match = message.prefix.match(/^([_a-zA-Z0-9\[\]\\`^{}|-]*)(!([^@]+)@(.*))?$/);
+        //'Elected!~ser@[IrcCity]-11B03E63.me'.match(/^([_a-zA-Z0-9\[\]\\`^{}|-]*)(!([^@]+)@(.*))?$/);
+        match = message.prefix.match(/^(.*)!(([^@]+)@(.*))?$/);
         if (match) {
             message.nick = match[1];
-            message.user = match[3];
+            message.user = '!'+match[3];
             message.host = match[4];
         }
         else {
